@@ -1,0 +1,6 @@
+QUICK FIXES:
+- Sort by saved + closer to 0$
+- More filter
+
+BIGGER SCOPE:
+- Account relevancy

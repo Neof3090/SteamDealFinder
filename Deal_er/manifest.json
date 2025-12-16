@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "CheapShark Deal Checker",
+  "version": "0.1.0",
+  "description": "Checks CheapShark for Steam deals and notifies on new matches.",
+  "action": { "default_popup": "popup.html" },
+  "background": { "service_worker": "background.js" },
+  "permissions": ["storage", "alarms", "notifications"],
+  "host_permissions": ["https://www.cheapshark.com/*"]
+}
