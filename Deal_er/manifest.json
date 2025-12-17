@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "CheapShark Deal Checker",
+  "name": "Deal_er",
   "version": "0.1.0",
   "description": "Checks CheapShark for Steam deals and notifies on new matches.",
   "action": { "default_popup": "popup.html" },

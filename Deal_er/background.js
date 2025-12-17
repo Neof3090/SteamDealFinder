@@ -20,36 +20,55 @@ const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 let cachedDeals = null;
 let cachedAt = 0;
 
-function buildApiUrl(maxPrice){
+// Remember last used filters for caching.
+let lastMaxPrice = null;
+let lastMaxDeals = null;
+
+function buildApiUrl(maxPrice, maxDeals){
     const url = new URL(API_BASE_URL);
 
     // Fundamentals
     url.searchParams.set("storeID", "1");       // Steam search
     url.searchParams.set("steamworks", "1");    // Redeemable on steam
     url.searchParams.set("onSale", "1");        // Is on sale
-    url.searchParams.set("sortBy", "Savings");  // Sort by how much you save
+    //url.searchParams.set("sortBy", "Savings");  // Sort by how much you save
 
     // Optionals
-    url.searchParams.set("pageSize", "40");     // Max amount of deals
+    //url.searchParams.set("pageSize", "40");     // Max amount of deals
     //url.searchParams.set("desc", "1");          // With description
 
     // Only add max price if the user entered one
     if (maxPrice !== undefined && maxPrice !== "") {
         url.searchParams.set("upperPrice", maxPrice);
     }
+    if (maxDeals !== undefined && maxDeals !== "") {
+        url.searchParams.set("pageSize", maxDeals);
+    }else{
+        url.searchParams.set("pageSize", "10");
+    }
 
     return url.toString();
 }
 
-async function fetchDeals(maxPrice) {
-    // If cache is still "fresh", return it.
-    const age = Date.now() - cachedAt;
-    if (cachedDeals && age < CACHE_TTL_MS) {
-        return cachedDeals;
+async function fetchDeals(maxPrice, maxDeals) {
+    // Check if we can use the cache.
+    if (
+        maxPrice === lastMaxPrice &&
+        maxDeals === lastMaxDeals
+    ) {
+        // If cache is still "fresh", return it.
+        const age = Date.now() - cachedAt;
+        if (cachedDeals && age < CACHE_TTL_MS) {
+            return cachedDeals;
+        }
     }
 
+    // Update last used filters.
+    lastMaxPrice = maxPrice;
+    lastMaxDeals = maxDeals;
+
     // Otherwise, build url and fetch from the API.
-    const apiUrl = buildApiUrl(maxPrice);
+    const apiUrl = buildApiUrl(maxPrice, maxDeals);
     const res = await fetch(apiUrl);
 
     // If HTTP fails (429, 500, etc.) throw an error that popup can show.
@@ -75,7 +94,7 @@ async function fetchDeals(maxPrice) {
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     // Popup asks: "give me deals"
     if (msg?.type === "GET_DEALS") {
-        fetchDeals()
+        fetchDeals(msg.maxPrice, msg.maxDeals)
         .then((deals) => sendResponse({ ok: true, deals }))
         .catch((err) => sendResponse({ ok: false, error: String(err?.message || err) }));
 
@@ -89,7 +108,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         cachedDeals = null;
         cachedAt = 0;
 
-        fetchDeals()
+        fetchDeals(msg.maxPrice, msg.maxDeals)
         .then((deals) => sendResponse({ ok: true, deals }))
         .catch((err) => sendResponse({ ok: false, error: String(err?.message || err) }));
 
