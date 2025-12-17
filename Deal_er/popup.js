@@ -100,7 +100,7 @@ function scoreDeals(deals, weights) {
   });
 }
 
-const WEIGHTS = { savings: 0.40, rating: 0.10, meta: 0.05, price: 0.45 }; // (must add up to 1.0)
+const WEIGHTS = { savings: 0.35, rating: 0.25, meta: 0.10, price: 0.30 }; // (must add up to 1.0)
 
 // Request deals from background.js
 function requestDeals(messageType) {

@@ -1,7 +1,8 @@
 FEATURES:
 - Sort deals by weights (hard coded for now)
 
-QUICK TODO:
+TODO:
+- Add icons for games?
 
 BIGGER SCOPE:
 - More filters
