@@ -1,0 +1,43 @@
+<details class="filterBox">
+        <summary class="btn">Settings</summary>
+        <div class="filter">
+            <label for="steamId" style="white-space: nowrap;">SteamID64:</label>
+            <input type="text" id="steamId" placeholder="Enter your steamID64" style="width: 60%;" />
+            <a href="https://steamid.io" id="steamIdHelp">🛈</a>
+        </div>
+        <button id="steamIdBtn" class="btn" style="width: 50%">Save ID</button>
+      </details>
+
+
+
+
+
+
+const WEIGHTS = { savings: 0.35, rating: 0.25, meta: 0.10, price: 0.30 }; // (must add up to 1.0)
+function scoreDeals(deals) {
+  const prices = deals.map(d => Number(d.salePrice)).filter(Number.isFinite);
+  if (prices.length === 0) return deals.map(d => ({ ...d, _score: 0 }));
+
+  const minP = Math.min(...prices);
+  const maxP = Math.max(...prices);
+
+  return deals.map(d => {
+    const savings = Number(d.savings);
+    const dealRating = Number(d.dealRating);
+    const meta = Number(d.metacriticScore);
+    const price = Number(d.salePrice);
+
+    const S = norm(savings, 0, 100);
+    const R = norm(dealRating, 0, 10);
+    const M = norm(meta, 0, 100);
+    const P = 1 - norm(price, minP, maxP);
+
+    const score =
+      WEIGHTS.savings * S +
+      WEIGHTS.rating  * R +
+      WEIGHTS.meta    * M +
+      WEIGHTS.price   * P;
+
+    return { ...d, _score: score };
+  });
+}

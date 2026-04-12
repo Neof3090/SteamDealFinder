@@ -3,6 +3,10 @@ FEATURES:
 
 TODO:
 - Add icons for games?
+- Add currency conversion
+- Add settings tab
+-- Add login?
+-- Add auto get free games feature
 
 BIGGER SCOPE:
 - More filters

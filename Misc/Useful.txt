@@ -1,0 +1,17 @@
+// On-load gathering local variables
+// Put in manifest
+"permissions": ["storage"],
+ 
+// Saves a value to storage
+function saveLocally(key, elementId) {
+  const value = document.getElementById(elementId).value.trim();
+  chrome.storage.local.set({ [key]: value });
+}
+
+// Fetches that value
+chrome.storage.local.get("steam64Id", ({ steam64Id: savedId }) => {
+    if (savedId) document.getElementById("steamId").value = savedId;
+});
+
+// Removes that value from storage
+chrome.storage.local.remove("steam64Id"); 
