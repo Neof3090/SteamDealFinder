@@ -1,19 +1,23 @@
 :root {
     --bg: #0f1115;
     --panel: #171a21;
-    --panel2: #181b22;
+    --panel2: #7f7f7f;
     --text: #e7e9ee;
     --text-highlight: #359eff;
     --muted: #9aa3b2;
     --border: #2a2f3a;
+    --indent: #34373d;
+    --button: rgb(80, 86, 100);
+    --hovered: #7c7f85;
     --fontSize: 13px;
+    --largeFontSize: 15px;
+    --headerFontSize: 20px;
 }
 
 * { box-sizing: border-box; }
 
 html, body{
     margin: 0;
-    padding: 0;
     background: transparent;
 }
 
@@ -21,6 +25,23 @@ body {
     color: var(--text);
     background: var(--bg);
     font: var(--fontSize)/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+h1 {
+    margin: 8px;
+    margin-left: 15px;
+    font-size: var(--headerFontSize);
+    font-weight: 600;
+}
+
+h2 {
+    font-size: var(--largeFontSize);
+    font-weight: bold;
+    margin: 0px;
+}
+
+p {
+    margin: 0;
 }
 
 a {
@@ -33,46 +54,62 @@ a:hover {
 
 .app {
     margin: 0;
-    width: 300px;
-    min-height: 200px;
+    width: 350px;
+    min-height: 70px;
     background: var(--bg);
     border: solid 2px var(--border);
     overflow: hidden;
 }
 
-.divider {
+.column {
     width: 100%;
-    height: 10px;
-    background: var(--border);
-    margin: 8px 0;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    background: var(--panel);
+    position: relative;
+    gap: 5px;
+    top: 0;
 }
 
 .row {
     width: 100%;
-    height: 70px;
+    min-height: 50px;
+    height: fit-content;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 10px 12px;
     border-bottom: 1px solid var(--border);
     background: var(--panel);
     position: relative;
+    gap: 5px;
     top: 0;
 }
 .row img {
     height: 100%;
     object-fit: contain;
 }
-
-.logo{
-    border: solid 1px var(--border);
-    border-radius: 10%;
+.filter input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+.filter input[type="checkbox"]:checked {
+  background: var(--bg);
+  border-color: var(--bg);
+}
+.filter input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: var(--text-highlight);
+  font-size: 14px;
+  line-height: 1;
 }
 
-h1 {
-  margin: 0;
-  font-size: var(--fontSize);
-  font-weight: 600;
+.logo{
+    border: solid 2px var(--border);
+    background: var(--indent);
+    border-radius: 20%;
 }
 
 .status {
@@ -80,16 +117,38 @@ h1 {
     color: var(--muted);
 }
 
-.btn {
+.iconBtn {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 24px;
-    padding: 2px;
+    width: 24px;
     line-height: 0;
     appearance: none;
-    border: 1px solid var(--border);
+    border: none;
+    padding: 0;
     background: transparent;
+    color: var(--text);
+    cursor: pointer;
+}
+.iconBtn img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+.iconBtn:hover {
+    filter: brightness(1.15);
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+    appearance: none;
+    border: 1px solid var(--border);
+    background: var(--button);
     color: var(--text);
     padding: 6px 10px;
     border-radius: 10px;
@@ -97,21 +156,18 @@ h1 {
 }
 .btn:hover { 
     filter: brightness(1.15); 
-    background: var(--panel2);
-}
-.btn img {
-    height: 100%;
-    width: auto;
-    display: block;
+    background: var(--hovered);
 }
 
-.filterBox {
-    padding: 8px 12px;
-    border: solid 1px var(--border);
-    background: var(--panel2);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.smallBtn {
+    min-height: 24px;
+    height: fit-content;
+    width: fit-content;
+    white-space: normal;
+}
+.wideBtn {
+    width: 100%;
+    min-height: 24px;
 }
 
 .filter {
@@ -131,36 +187,35 @@ h1 {
     appearance: none;
     border: 1px solid var(--border);
     border-radius: 6px;
-    background: var(--bg);
-    background: var(--bg);
+    background: var(--indent);
     color: var(--text);
     padding: 2px 4px;
     font-size: var(--fontSize);
-}
-
-.filter input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-}
-.filter input[type="checkbox"]:checked {
-  background: var(--bg);
-  border-color: var(--bg);
-}
-.filter input[type="checkbox"]:checked::after {
-  content: "✓";
-  color: var(--text-highlight);
-  font-size: 14px;
-  line-height: 1;
 }
 
 .list {
     list-style: none;
     margin: 0;
     padding: 0;
+    border-top: 3px solid var(--border);
 }
 
 .rangeInput {
     width: 120px;
+}
+
+.rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%; 
+  background: var(--button);
+  cursor: pointer;
+}
+
+.rangeInput::-webkit-slider-thumb:hover {
+    background: var(--hovered);
 }
 
 .item {
@@ -193,3 +248,22 @@ h1 {
 .valSuffix {
     margin: 0px;
 }
+
+/* Animations & Toggles */
+
+#cogImage {
+    transition: rotate 0.4s ease;
+}
+#cogImage.rotate {
+    rotate: 180deg;
+}
+
+#window {
+    overflow: hidden;
+    transition: max-height 0.8s ease;
+}
+#window.collapsed {
+    max-height: 20px;
+}
+
+.hidden { display: none; }

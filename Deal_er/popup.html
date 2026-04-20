@@ -7,45 +7,80 @@
   </head>
 
   <body>
-    <div class="app">
-      <header id="top_row" class="row">
-        <img src="Icons/logo.png" alt="logo" class="logo" />
+    <div class="app" id="window">
+      <header class="row" style="justify-content: center; height: 70px;">
+        <img src="Icons/logo2.png" alt="logo" class="logo" />
         <img src="Icons/logo_text.png" alt="logo" class="logo_text" />
+        <button id="settingBtn" class="iconBtn">
+          <img id="cogImage" src="Icons\setting.png"/>
+        </button>
       </header>
 
-      <div id="filterBox" class="filterBox">
-        <div class="filter">
-          <label for="maxPrice">Max Price:</label>
-          <input type="range" id="maxPrice" class="rangeInput" value="50" min="0" max="50" />
-          <p class="rangeVal" id="maxPriceValue">50</p>
-          <p class="valSuffix"  id="maxPriceCurrency">$</p>
+      <div id="settingPage" class="hidden">
+        <div>
+          <h1>Settings</h1>
+        </div>
+        
+        <div class="row">
+          <div class="column">
+              <h2>Cache:</h2>
+              <div class="filter">
+                <button id="showCacheBtn" class="btn smallBtn">Show Cached</button>
+                <button id="clearCacheBtn" class="btn smallBtn">Clear Cached</button>
+              </div>
+          </div>
         </div>
 
-        <div class="filter">
-          <label for="maxDeals">Max Deals:</label>
-          <input type="range" id="maxDeals"  class="rangeInput"  min="0" max="60" value="30" />
-          <p class="rangeVal" id="maxDealsValue">30</p>
-          <p class="valSuffix">deals</p>
-        </div>
-
-        <div class="filter">
-          <label for="sortBy">Sort by:</label>
-            <select id="sortBy">
-              <option value="DealRating" selected>DealRating</option>
-              <option value="Savings">Savings</option>
-              <option value="Price">Price</option>
-              <option value="Reviews">Reviews</option>
-              <option value="Metacritic">Metacritic</option>
-              <option value="Recent">Recent</option>
-              <option value="Title">Title</option>
+        <div class="row">
+          <div class="filter">
+            <label for="currency">Currency:</label>
+            <select id="currency">
+              <option value="USD" selected>USD</option>
+              <option value="SEK">SEK</option>
             </select>  
+          </div>
         </div>
-
-        <button id="search" class="btn">Search</button>
       </div>
 
-      <div id="status" class="status">Ready.</div>
-      <ul id="dealList" class="list"></ul>
+      <div id="searchCont" class="column" style="gap: 0;">
+        <div class="row">
+          <div class="column">
+            <div class="filter">
+              <label for="maxPrice">Max Price:</label>
+              <input type="range" id="maxPrice" class="rangeInput" value="50" min="1" max="50" />
+              <p class="rangeVal" id="maxPriceValue">50</p>
+              <p class="valSuffix" id="maxPriceCurrency">$</p>
+            </div>
+            
+            <div class="filter">
+              <label for="maxDeals">Max Deals:</label>
+              <input type="range" id="maxDeals"  class="rangeInput"  min="0" max="60" value="5" />
+              <p class="rangeVal" id="maxDealsValue">5</p>
+              <p class="valSuffix">deals</p>
+            </div>
+            
+            <div class="filter">
+              <label for="sortBy">Sort by:</label>
+              <select id="sortBy">
+                <option value="DealRating" selected>DealRating</option>
+                <option value="Savings">Savings</option>
+                <option value="Price">Price</option>
+                <option value="Reviews">Reviews</option>
+                <option value="Metacritic">Metacritic</option>
+                <option value="Recent">Recent</option>
+                <option value="Title">Title</option>
+              </select>  
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <button id="search" class="btn wideBtn">Search</button>
+        </div>
+
+        <div id="status" class="status">Ready.</div>
+        <ul id="dealList" class="list"></ul>
+      </div>
     </div>
 
     <script src="popup.js"></script>
