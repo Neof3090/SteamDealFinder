@@ -72,44 +72,6 @@ function escapeHtml(s) {
   }[c]));
 }
 
-function openSteamStore(appId) {
-  const safeAppId = String(appId || "").trim();
-  if (!safeAppId) return;
-
-  const steamUrl = `steam://store/${encodeURIComponent(safeAppId)}`;
-  const webUrl = `https://store.steampowered.com/app/${encodeURIComponent(safeAppId)}`;
-
-  let fallbackTriggered = false;
-  let focusLost = false;
-
-  /* 
-  If the browser still has focus after about 1.2 seconds, 
-  it assumes the protocol launch failed and opens the normal Steam web page in a new tab. 
-  */
-  const handleFocusLoss = () => {
-    focusLost = true;
-  };
-
-  window.addEventListener("blur", handleFocusLoss, { once: true });
-  document.addEventListener("visibilitychange", handleFocusLoss, { once: true });
-
-  const cleanup = () => {
-    window.removeEventListener("blur", handleFocusLoss);
-    document.removeEventListener("visibilitychange", handleFocusLoss);
-  };
-
-  // Try the Steam protocol first. If the browser keeps focus, assume it failed.
-  window.location.href = steamUrl;
-
-  window.setTimeout(() => {
-    cleanup();
-
-    if (focusLost || fallbackTriggered) return;
-    fallbackTriggered = true;
-    chrome.tabs.create({ url: webUrl });
-  }, 1200);
-}
-
 // Render list of deals into the popup.
 function renderDeals(deals) {
   listEl.innerHTML = "";
@@ -129,42 +91,21 @@ function renderDeals(deals) {
     const salePriceString   = `${salePrice} ${suffix}`;
 
     const savings = Number(d.savings || 0).toFixed(0);
-    const appId = escapeHtml(d.steamAppID || "");
     li.innerHTML = `
-        <div class="dealCard">
-            <div class="dealThumbWrap">
-                <img
-                    class="dealThumb"
-                    src="${escapeHtml(d.thumb || "")}"
-                    alt="${escapeHtml(d.title || "Game cover")}"
-                    loading="lazy"
-                />
-            </div>
-            <div class="dealContent">
-                <div class="title">
-                    <a
-                        href="#"
-                        class="steamLink"
-                        data-app-id="${appId}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        ${escapeHtml(d.title || "Untitled")}
-                    </a>
-                </div>
-                <div class="meta">
-                    <span class="badge">${savings}% off</span>
-                    <span>${escapeHtml(normalPriceString)} → ${escapeHtml(salePriceString)}</span>
-                </div>
-            </div>
+        <div class="title">
+            <a
+                href="https://store.steampowered.com/app/${escapeHtml(d.steamAppID)}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                ${escapeHtml(d.title || "Untitled")}
+            </a>
+        </div>
+        <div class="meta">
+            <span class="badge">${savings}% off</span>
+            <span>${escapeHtml(normalPriceString)} → ${escapeHtml(salePriceString)}</span>
         </div>
     `;
-
-    const steamLink = li.querySelector(".steamLink");
-    steamLink?.addEventListener("click", (event) => {
-      event.preventDefault();
-      openSteamStore(d.steamAppID);
-    });
 
     listEl.appendChild(li);
   }

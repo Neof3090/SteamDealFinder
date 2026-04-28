@@ -1,0 +1,43 @@
+Deal_er Extension Helper – Manual Installation Instructions
+===========================================================
+
+STEP 1 – Extract the extension
+-------------------------------
+1. Locate the Deal_er ZIP file you downloaded.
+2. Right-click it and choose "Extract All..." (or use a tool like 7-Zip/WinRAR).
+3. Choose a permanent folder to extract into — for example:
+       C:\Users\YourName\Extensions\Deal_er-v0.1
+4. After extraction, open the folder and make sure you can see a file
+   called "manifest.json" inside it. That confirms the extension is valid.
+   (If manifest.json is inside a subfolder, use that subfolder as your extension folder.)
+
+
+STEP 2 – Open your browser's Extensions page
+---------------------------------------------
+Type the appropriate address into your browser's address bar and press Enter:
+
+   Chrome:   chrome://extensions
+   Edge:     edge://extensions
+   Opera:    opera://extensions
+
+
+STEP 3 – Enable Developer Mode
+--------------------------------
+On the Extensions page, find the "Developer mode" toggle (usually top-right corner)
+and turn it ON.
+
+
+STEP 4 – Load the extension
+-----------------------------
+1. Click the "Load unpacked" button that appears after enabling Developer mode.
+2. In the folder picker that opens, navigate to the folder from Step 1
+   (the one containing manifest.json) and select it.
+3. The Deal_er extension should now appear in your extensions list and be active.
+
+
+NOTES
+-----
+- The extension folder must stay in place — do not delete or move it after loading,
+  or the browser will lose track of it.
+- If you update the extension later, extract the new ZIP to the same folder
+  (replacing the old files) and click the refresh icon on the extension card.
